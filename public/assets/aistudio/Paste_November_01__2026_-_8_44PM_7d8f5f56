@@ -1,0 +1,866 @@
+# MASTER PROMPT – PAIBP SMART ASSESSMENT PRO FASE E & F 2026
+
+## 1. PERAN DAN IDENTITAS AI
+
+Bertindaklah sebagai Senior Full-Stack Developer, AI Application Architect, Curriculum Specialist, Assessment Designer, dan Ahli Pendidikan Agama Islam dan Budi Pekerti (PAIBP) jenjang SMA/MA/SMK.
+
+Bangun aplikasi web profesional bernama:
+
+**PAIBP SMART ASSESSMENT PRO – FASE E & F 2026**
+
+Aplikasi merupakan platform pembuat soal, perancang asesmen, pengelola bank soal, analisis hasil belajar, serta penyusun perangkat penilaian berbasis AI.
+
+Target pengguna:
+- Guru Pendidikan Agama Islam dan Budi Pekerti SMA/MA/SMK.
+- Guru PAI dan Budi Pekerti Fase E dan F.
+- Tim MGMP PAI.
+- Satuan pendidikan.
+- Mahasiswa pendidikan dan calon guru.
+
+Aplikasi harus mudah digunakan oleh guru, memiliki antarmuka modern, responsif, profesional, dan berbahasa Indonesia.
+
+## 2. TUJUAN UTAMA APLIKASI
+
+Aplikasi harus mampu membantu guru melakukan seluruh proses asesmen:
+
+1. Memilih fase dan kelas.
+2. Memilih elemen pembelajaran.
+3. Mengakses CP yang sesuai.
+4. Memilih atau menyusun TP.
+5. Memilih materi pembelajaran.
+6. Menentukan indikator ketercapaian TP.
+7. Menyusun kisi-kisi asesmen.
+8. Menghasilkan soal otomatis menggunakan AI.
+9. Menghasilkan soal berbasis HOTS dan LOTS.
+10. Mengintegrasikan Taksonomi Bloom dan SOLO.
+11. Menghasilkan kunci jawaban dan pembahasan.
+12. Memvalidasi kualitas soal.
+13. Menghasilkan rubrik penilaian.
+14. Membuat instrumen asesmen non-tes dan praktik.
+15. Mengolah nilai peserta didik.
+16. Menganalisis ketercapaian tujuan pembelajaran.
+17. Menyusun program remedial dan pengayaan.
+18. Mengekspor perangkat asesmen ke berbagai format.
+
+Semua proses harus saling terhubung. Data yang sudah dipilih pengguna tidak boleh berubah atau diabaikan ketika berpindah ke tahap berikutnya.
+
+## 3. BASIS DATA KURIKULUM
+
+Buat database kurikulum internal yang terstruktur, dinamis, dapat diedit, dan dapat dikembangkan.
+
+### A. FASE E – KELAS X
+
+Gunakan lima elemen berikut.
+
+**1. Al-Qur'an Hadis**
+CP:
+Memahami ayat Al-Qur'an dan hadis tentang perintah berlomba-lomba dalam kebaikan, larangan pergaulan bebas, dan zina; dapat membaca Al-Qur'an dengan baik; hafalan 2 juz.
+
+TP:
+- E.AQH.1: Menjelaskan makna ayat dan hadis tentang perintah berlomba-lomba dalam kebaikan serta mewujudkannya dalam kegiatan belajar dan sosial.
+- E.AQH.2: Menganalisis ayat dan hadis tentang larangan pergaulan bebas dan zina serta menerapkan adab pergaulan yang terjaga.
+- E.AQH.3: Membaca Al-Qur'an dengan lancar dan sesuai kaidah tajwid.
+- E.AQH.4: Menghafal surah/ayat pilihan secara bertahap hingga mencapai target 2 juz pada akhir fase.
+
+Materi:
+Fastabiqul khairat, larangan pergaulan bebas dan zina, tilawah, tajwid, dan tahfiz.
+
+**2. Akidah**
+CP:
+Memahami beberapa cabang iman (syu'ab al-iman).
+
+TP:
+- E.AK.1: Menjelaskan pengertian dan beberapa cabang iman berdasarkan hadis.
+- E.AK.2: Mencontohkan penerapan cabang iman dalam kehidupan sehari-hari.
+
+Materi:
+Pengertian syu'ab al-iman, hadis cabang iman, malu, jujur, menjaga kebersihan, menghormati tamu, dan penerapan iman.
+
+**3. Akhlak**
+CP:
+Memahami manfaat menghindari penyakit hati dan meneladani akhlak Rasulullah Saw.
+
+TP:
+- E.AKH.1: Mengidentifikasi bentuk penyakit hati dan menjelaskan manfaat menghindarinya.
+- E.AKH.2: Meneladani akhlak Rasulullah Saw. dalam perilaku sehari-hari dan menyusun komitmen perbaikan diri.
+
+Materi:
+Riya, hasad, takabur, ujub, penyakit hati, dan keteladanan Rasulullah.
+
+**4. Fikih**
+CP:
+Memahami sumber hukum Islam dan pentingnya menjaga lima prinsip dasar hukum Islam (al-kulliyat al-khamsah).
+
+TP:
+- E.F.1: Menjelaskan sumber-sumber hukum Islam dan urutan penggunaannya.
+- E.F.2: Menjelaskan lima prinsip dasar hukum Islam dan menganalisis contoh upaya menjaganya.
+
+Materi:
+Al-Qur'an, hadis, ijmak, kias, hifz al-din, hifz an-nafs, hifz al-'aql, hifz an-nasl, dan hifz al-mal.
+
+**5. Sejarah Peradaban Islam**
+CP:
+Memahami sejarah masuknya Islam ke Indonesia dan peran tokoh ulama dalam penyebarannya.
+
+TP:
+- E.SPI.1: Menjelaskan proses, jalur, dan teori masuknya Islam ke Indonesia.
+- E.SPI.2: Menganalisis peran ulama dalam penyebaran Islam secara damai dan akomodatif terhadap budaya lokal.
+
+Materi:
+Jalur perdagangan, teori masuknya Islam, Walisongo, ulama Nusantara, dan dakwah Islam di Indonesia.
+
+### B. FASE F – KELAS XI DAN XII
+
+**1. Al-Qur'an Hadis**
+
+CP:
+Memahami ayat Al-Qur'an dan hadis tentang pentingnya berpikir kritis, ilmu pengetahuan dan teknologi, memelihara kehidupan manusia, dan moderasi beragama; dapat membaca Al-Qur'an dengan baik; hafalan 2 juz.
+
+TP:
+- F.AQH.1: Menganalisis ayat dan hadis tentang pentingnya berpikir kritis serta menerapkannya dalam menyikapi informasi.
+- F.AQH.2: Menjelaskan ayat dan hadis tentang ilmu pengetahuan dan teknologi serta menunjukkan sikap bertanggung jawab.
+- F.AQH.3: Menjelaskan ayat dan hadis tentang memelihara kehidupan manusia dan menunjukkan kepedulian terhadap kelompok rentan serta kelestarian alam.
+- F.AQH.4: Menjelaskan ayat dan hadis tentang moderasi beragama serta bersikap adil, toleran, dan menghargai perbedaan.
+- F.AQH.5: Membaca Al-Qur'an dengan baik dan menyelesaikan hafalan 2 juz pada akhir fase.
+
+Materi:
+Berpikir kritis, ilmu pengetahuan dan teknologi, menjaga kehidupan, kepedulian sosial, moderasi beragama, tilawah, tajwid, dan tahfiz.
+
+**2. Akidah**
+
+CP:
+Memahami beberapa cabang iman dan keterkaitan iman, Islam, dan ihsan.
+
+TP:
+- F.AK.1: Menjelaskan beberapa cabang iman lanjutan dan menerapkannya dalam kehidupan bermasyarakat.
+- F.AK.2: Menganalisis keterkaitan iman, Islam, dan ihsan serta merefleksikannya dalam ibadah dan akhlak.
+
+Materi:
+Syu'ab al-iman lanjutan, hadis Jibril, iman, Islam, ihsan, dan implementasinya.
+
+**3. Akhlak**
+
+CP:
+Memahami manfaat menghindari penyakit sosial, memahami adab bermasyarakat dan etika digital dalam Islam, serta meneladani akhlak Rasulullah Saw.
+
+TP:
+- F.AKH.1: Mengidentifikasi penyakit sosial dan menjelaskan manfaat menghindarinya.
+- F.AKH.2: Menerapkan adab bermasyarakat dan etika digital dalam Islam, termasuk bijak bermedia sosial.
+- F.AKH.3: Meneladani akhlak Rasulullah Saw. dalam interaksi sosial dan kolaborasi antarumat beragama.
+
+Materi:
+Perundungan, tawuran, intoleransi, korupsi, adab bermasyarakat, etika digital, ukhuwah, dan keteladanan Rasulullah.
+
+**4. Fikih**
+
+CP:
+Memahami ketentuan khotbah, tablig dan dakwah, muamalah, munakahat, dan mawaris.
+
+TP:
+- F.F.1: Menjelaskan ketentuan khotbah, tablig, dan dakwah serta mempraktikkannya secara santun dan bijak.
+- F.F.2: Menganalisis ketentuan muamalah dan menerapkannya secara jujur dan adil.
+- F.F.3: Menjelaskan ketentuan munakahat serta prinsip keluarga sakinah, mawaddah, dan rahmah yang berkeadilan.
+- F.F.4: Menjelaskan ketentuan mawaris dan menerapkannya dalam contoh kasus sederhana.
+
+Materi:
+Khotbah, tablig, dakwah, jual beli, utang piutang, transaksi ekonomi Islam, munakahat, keluarga sakinah, mawaris, dan perhitungan warisan.
+
+**5. Sejarah Peradaban Islam**
+
+CP:
+Memahami peran tokoh ulama dalam perkembangan peradaban Islam di dunia dan peran organisasi Islam di Indonesia.
+
+TP:
+- F.SPI.1: Menganalisis peran ulama dan ilmuwan Muslim dalam perkembangan peradaban Islam di dunia.
+- F.SPI.2: Menganalisis peran organisasi-organisasi Islam di Indonesia dalam pendidikan, sosial, dan kebangsaan.
+
+Materi:
+Ulama dan ilmuwan Muslim, perkembangan peradaban Islam, organisasi Islam di Indonesia, serta kontribusinya bagi bangsa.
+
+## 4. ATURAN PEMETAAN KURIKULUM
+
+Sediakan pemetaan ATP sebagai acuan awal.
+
+Fase E:
+- Semester ganjil: E.AK.1, E.AQH.1, E.AKH.1, E.F.1, E.SPI.1.
+- Semester genap: E.AQH.2, E.F.2, E.AKH.2, E.AK.2, E.SPI.2.
+- E.AQH.3 dan E.AQH.4 terintegrasi sepanjang tahun.
+
+Fase F:
+
+Kelas XI:
+- Semester ganjil: F.AK.1, F.AQH.1, F.AQH.2, F.AKH.1, F.F.1, F.SPI.1.
+- Semester genap: F.AQH.3, F.AKH.2, F.F.2, F.AK.2.
+
+Kelas XII:
+- Semester ganjil: F.AQH.4, F.F.3, F.F.4, F.SPI.2.
+- Semester genap: konsolidasi, penguatan, proyek, dan persiapan asesmen akhir.
+- F.AQH.5 terintegrasi sepanjang fase.
+
+ATURAN PENTING:
+1. CP harus dapat ditelusuri ke dokumen sumber.
+2. TP dan ATP merupakan turunan CP dan dapat diedit guru.
+3. Jangan mengubah redaksi CP sumber tanpa persetujuan pengguna.
+4. Jangan mencampur CP Fase E dengan Fase F.
+5. Jangan menampilkan TP kelas XI ketika pengguna memilih kelas X.
+6. Jangan menampilkan materi Fase E pada generator Fase F, kecuali pengguna sengaja memilih materi pengayaan atau integrasi.
+7. Guru dapat membuat TP baru tanpa menghapus TP bawaan.
+8. Sediakan fitur impor dokumen CP dan pengaturan kurikulum.
+9. Tandai data yang belum diverifikasi dari dokumen sumber.
+10. Jangan menganggap contoh materi atau surah sebagai ketentuan wajib.
+
+## 5. MODUL UTAMA APLIKASI
+
+Buat modul berikut dalam navigasi utama.
+
+### MODUL 1 – DASHBOARD
+
+Tampilkan:
+- Jumlah CP.
+- Jumlah TP.
+- Jumlah materi.
+- Jumlah soal dalam bank soal.
+- Jumlah paket asesmen.
+- Riwayat pembuatan soal.
+- Statistik penggunaan aplikasi.
+- Pintasan generator soal.
+- Pintasan generator kisi-kisi.
+- Pintasan analisis asesmen.
+
+### MODUL 2 – MANAJEMEN KURIKULUM
+
+Fitur:
+- Database CP Fase E dan F.
+- Database TP.
+- Database ATP.
+- Database elemen.
+- Database materi.
+- Database indikator.
+- Tambah, edit, hapus, dan duplikasi TP.
+- Impor CP dari dokumen.
+- Ekspor pemetaan CP, TP, ATP.
+- Pengaturan semester dan alokasi JP.
+
+Sediakan tampilan relasi:
+CP → Elemen → TP → Materi → Indikator → Asesmen.
+
+### MODUL 3 – GENERATOR KISI-KISI
+
+Input:
+- Fase.
+- Kelas.
+- Semester.
+- Elemen.
+- CP.
+- TP.
+- Materi.
+- Jenis asesmen.
+- Jumlah soal.
+- Bentuk soal.
+- Level kognitif.
+- Tingkat kesulitan.
+
+Output kisi-kisi wajib memuat:
+1. Nomor soal.
+2. Fase/kelas.
+3. Elemen.
+4. Capaian Pembelajaran.
+5. Tujuan Pembelajaran.
+6. Materi.
+7. Indikator soal.
+8. Level kognitif.
+9. Tingkat kesulitan.
+10. Bentuk soal.
+11. Nomor soal dalam paket.
+
+Kisi-kisi harus benar-benar sesuai dengan soal yang dihasilkan. Jangan membuat kisi-kisi secara terpisah yang tidak terhubung dengan soal.
+
+### MODUL 4 – AI QUESTION GENERATOR
+
+Ini merupakan fitur utama aplikasi.
+
+Buat generator soal yang mampu menghasilkan soal sesuai pilihan pengguna secara dinamis.
+
+Pilihan bentuk soal:
+
+A. Pilihan Ganda
+- 4 opsi (A–D).
+- 5 opsi (A–E).
+- Satu jawaban benar.
+- Distraktor logis dan homogen.
+
+B. Pilihan Ganda Kompleks
+- Lebih dari satu jawaban benar.
+- Petunjuk pemilihan jelas.
+- Sistem penskoran dapat diatur.
+
+C. Benar/Salah
+- Pernyataan berbasis konsep atau stimulus.
+
+D. Menjodohkan
+- Pasangan istilah, konsep, dalil, tokoh, atau peristiwa.
+
+E. Isian Singkat
+- Jawaban spesifik dan kriteria penilaian.
+
+F. Uraian/Esai
+- Jawaban analitis.
+- Memerlukan argumentasi.
+- Dapat mengintegrasikan dalil.
+- Memiliki rubrik penskoran.
+
+G. Studi Kasus
+- Kasus kehidupan nyata.
+- Konflik nilai.
+- Permasalahan sosial.
+- Analisis hukum Islam.
+- Pengambilan keputusan berdasarkan nilai Islam.
+
+H. Soal Berbasis Stimulus
+- Teks.
+- Berita.
+- Infografis.
+- Tabel.
+- Data.
+- Ilustrasi.
+- Situasi kehidupan sehari-hari.
+
+Input generator:
+1. Fase E/F.
+2. Kelas X/XI/XII.
+3. Semester.
+4. Elemen.
+5. CP.
+6. TP.
+7. Materi.
+8. Indikator.
+9. Jumlah soal.
+10. Bentuk soal.
+11. Level kognitif.
+12. Tingkat kesulitan.
+13. Proporsi LOTS, MOTS, HOTS.
+14. Konteks soal.
+15. Sumber atau referensi tambahan.
+16. Pengaturan penggunaan dalil.
+
+Sediakan mode:
+- Generator cepat.
+- Generator profesional.
+- Generator HOTS.
+- Generator asesmen diagnostik.
+- Generator asesmen formatif.
+- Generator asesmen sumatif.
+- Generator remedial.
+- Generator pengayaan.
+- Generator soal berbasis literasi.
+- Generator soal berbasis kasus kontekstual.
+- Generator soal berbasis proyek.
+
+PENTING:
+AI wajib menggunakan semua input pengguna sebagai parameter utama.
+
+Jika pengguna memilih materi "Al-Kulliyat Al-Khamsah", AI tidak boleh menghasilkan soal tentang sumber hukum Islam atau materi lain yang tidak diminta, kecuali terdapat hubungan langsung yang diperlukan oleh indikator.
+
+Jangan mengabaikan pilihan fase, kelas, TP, materi, jumlah soal, bentuk soal, tingkat kesulitan, dan komposisi kognitif.
+
+Setelah soal dihasilkan, tampilkan seluruh soal dalam editor yang dapat diubah secara manual.
+
+### MODUL 5 – INTEGRASI TAKSONOMI BLOOM DAN SOLO
+
+Setiap soal harus memiliki label level kognitif.
+
+Taksonomi Bloom Revisi:
+- C1 Mengingat.
+- C2 Memahami.
+- C3 Mengaplikasikan.
+- C4 Menganalisis.
+- C5 Mengevaluasi.
+- C6 Mencipta.
+
+Taksonomi SOLO:
+- Prestructural.
+- Unistructural.
+- Multistructural.
+- Relational.
+- Extended Abstract.
+
+Aturan:
+- C1–C2 untuk penguasaan konsep dasar.
+- C3 untuk penerapan konsep.
+- C4 untuk analisis kasus.
+- C5 untuk evaluasi dan penilaian kritis.
+- C6 untuk perancangan solusi atau produk.
+
+AI harus menentukan level berdasarkan proses berpikir yang benar-benar dituntut soal, bukan sekadar kata kerja dalam pertanyaan.
+
+Sediakan analisis distribusi level kognitif dalam bentuk grafik.
+
+### MODUL 6 – DEEP LEARNING ASSESSMENT
+
+Integrasikan pendekatan pembelajaran mendalam.
+
+Tiga prinsip:
+1. Berkesadaran (Mindful Learning).
+2. Bermakna (Meaningful Learning).
+3. Menggembirakan (Joyful Learning).
+
+Pengalaman belajar:
+- Memahami.
+- Mengaplikasikan.
+- Merefleksikan.
+
+AI harus mampu menghasilkan asesmen yang:
+- Menghubungkan ajaran Islam dengan kehidupan nyata.
+- Mendorong refleksi nilai.
+- Melatih pemecahan masalah.
+- Mendorong berpikir kritis.
+- Mendorong kepedulian sosial.
+- Mendorong tanggung jawab moral dan spiritual.
+
+Jangan hanya membuat soal hafalan definisi. Variasikan soal pemahaman, aplikasi, analisis, evaluasi, dan refleksi.
+
+### MODUL 7 – GENERATOR ASESMEN NON-TES
+
+Sediakan generator instrumen berikut:
+
+1. Observasi sikap.
+2. Penilaian diri.
+3. Penilaian antarteman.
+4. Jurnal refleksi.
+5. Penilaian praktik.
+6. Penilaian proyek.
+7. Penilaian produk.
+8. Penilaian portofolio.
+9. Penilaian presentasi.
+10. Penilaian diskusi.
+
+Setiap instrumen memiliki:
+- Tujuan penilaian.
+- Aspek yang dinilai.
+- Indikator.
+- Teknik penilaian.
+- Instrumen.
+- Rubrik.
+- Skala penilaian.
+- Pedoman penskoran.
+
+### MODUL 8 – ASESMEN KHUSUS AL-QUR'AN
+
+Buat submodul khusus karena CP Al-Qur'an Hadis mencakup kemampuan membaca dan menghafal Al-Qur'an.
+
+A. Penilaian Tilawah:
+- Makharijul huruf.
+- Ketepatan tajwid.
+- Kelancaran.
+- Fashahah.
+- Adab membaca Al-Qur'an.
+
+B. Penilaian Tahfiz:
+- Ketepatan hafalan.
+- Kelancaran hafalan.
+- Ketepatan makhraj.
+- Penerapan tajwid.
+- Kemandirian setoran.
+- Konsistensi murojaah.
+
+C. Penilaian praktik:
+- Rubrik per aspek.
+- Skala 1–4.
+- Nilai akhir otomatis.
+- Catatan guru.
+- Rekomendasi perbaikan.
+
+D. Target hafalan:
+- Fase E: target 2 juz pada akhir fase.
+- Fase F: target 2 juz pada akhir fase.
+
+Hafalan dan tilawah harus dapat dicatat sebagai pembiasaan rutin, bukan hanya asesmen pada satu bab.
+
+Jangan menganggap hafalan telah selesai hanya berdasarkan jumlah setoran. Guru harus dapat memverifikasi kualitas hafalan.
+
+### MODUL 9 – GENERATOR RUBRIK PENILAIAN
+
+AI membuat rubrik otomatis berdasarkan:
+- Tujuan pembelajaran.
+- Bentuk asesmen.
+- Indikator.
+- Karakteristik tugas.
+- Aspek yang dinilai.
+
+Gunakan skala 1–4 sebagai pilihan standar.
+
+Contoh kategori:
+4 = Sangat Baik.
+3 = Baik.
+2 = Cukup.
+1 = Perlu Bimbingan.
+
+Rubrik uraian harus mempertimbangkan:
+- Ketepatan konsep.
+- Kedalaman pemahaman.
+- Penggunaan dalil.
+- Kemampuan analisis.
+- Argumentasi.
+- Contoh penerapan.
+- Kualitas solusi.
+
+Rubrik praktik harus menyesuaikan jenis praktik, bukan menggunakan rubrik generik yang sama untuk semua aktivitas.
+
+Sediakan konversi nilai ke skala 0–100, predikat, dan kriteria ketercapaian tujuan pembelajaran.
+
+### MODUL 10 – AI VALIDATOR / QUALITY CONTROL
+
+Setiap soal yang dihasilkan wajib melewati pemeriksaan kualitas otomatis.
+
+Periksa:
+1. Kesesuaian fase.
+2. Kesesuaian kelas.
+3. Kesesuaian elemen.
+4. Kesesuaian CP.
+5. Kesesuaian TP.
+6. Kesesuaian materi.
+7. Kesesuaian indikator.
+8. Kesesuaian level kognitif.
+9. Ketepatan konsep keislaman.
+10. Ketepatan dalil Al-Qur'an.
+11. Ketepatan hadis dan sumbernya.
+12. Kejelasan bahasa.
+13. Ketepatan kunci jawaban.
+14. Kualitas distraktor.
+15. Potensi ambiguitas.
+16. Kesamaan soal.
+17. Kesesuaian tingkat kesulitan.
+18. Kesesuaian kisi-kisi dengan soal.
+
+Berikan status:
+- Valid.
+- Perlu Revisi.
+- Tidak Valid.
+
+Tampilkan alasan dan saran perbaikan setiap kali ditemukan masalah.
+
+Khusus dalil:
+- Jangan mengarang ayat Al-Qur'an.
+- Jangan membuat hadis palsu.
+- Jangan mencantumkan nomor ayat atau hadis yang belum terverifikasi.
+- Bedakan teks ayat, terjemahan, dan penjelasan.
+- Cantumkan sumber rujukan jika tersedia.
+- Jika AI tidak dapat memastikan keakuratan sumber, berikan peringatan verifikasi kepada guru.
+
+AI bukan pengganti validasi akademik guru.
+
+### MODUL 11 – BANK SOAL DIGITAL
+
+Sediakan penyimpanan soal yang telah dibuat.
+
+Fitur:
+- Simpan soal.
+- Edit soal.
+- Hapus soal.
+- Duplikasi soal.
+- Pencarian berdasarkan materi.
+- Filter berdasarkan fase.
+- Filter kelas.
+- Filter elemen.
+- Filter TP.
+- Filter level kognitif.
+- Filter tingkat kesulitan.
+- Filter bentuk soal.
+- Pengelompokan paket asesmen.
+- Import dan export bank soal.
+
+Setiap soal wajib menyimpan metadata:
+ID, fase, kelas, elemen, CP, TP, materi, indikator, bentuk soal, level Bloom, level SOLO, kesulitan, stimulus, pertanyaan, opsi, kunci, pembahasan, referensi, dan status validasi.
+
+### MODUL 12 – GENERATOR PAKET ASESMEN
+
+Pengguna dapat membuat satu paket asesmen dengan pengaturan:
+
+- Nama asesmen.
+- Satuan pendidikan.
+- Mata pelajaran.
+- Kelas.
+- Fase.
+- Semester.
+- Tahun pelajaran.
+- Materi.
+- Jumlah soal.
+- Komposisi bentuk soal.
+- Durasi pengerjaan.
+- Bobot soal.
+- Petunjuk pengerjaan.
+
+Output:
+1. Naskah soal.
+2. Kisi-kisi.
+3. Kunci jawaban terpisah.
+4. Pembahasan.
+5. Pedoman penskoran.
+6. Rubrik.
+7. Lembar jawaban.
+8. Rekap indikator dan TP yang diukur.
+
+Pastikan kunci jawaban tidak muncul pada dokumen soal untuk peserta didik.
+
+### MODUL 13 – ANALISIS HASIL ASESMEN
+
+Sediakan input nilai peserta didik secara manual dan melalui impor Excel.
+
+Fitur:
+- Input nilai.
+- Perhitungan nilai otomatis.
+- Nilai per peserta didik.
+- Nilai per butir soal.
+- Rata-rata kelas.
+- Nilai tertinggi dan terendah.
+- Distribusi nilai.
+- Persentase ketuntasan.
+- Ketercapaian setiap TP.
+- Analisis kesulitan soal.
+- Identifikasi materi yang belum dikuasai.
+- Analisis kebutuhan pembelajaran lanjutan.
+
+Sediakan grafik:
+- Distribusi nilai.
+- Ketercapaian TP.
+- Perbandingan hasil belajar.
+- Tingkat ketuntasan kelas.
+
+### MODUL 14 – REMEDIAL DAN PENGAYAAN
+
+AI menganalisis hasil belajar dan menghasilkan rekomendasi.
+
+Remedial:
+- Mengidentifikasi TP yang belum tercapai.
+- Memberikan materi penguatan.
+- Menghasilkan soal remedial.
+- Memberikan aktivitas belajar alternatif.
+- Menghasilkan asesmen ulang.
+
+Pengayaan:
+- Soal HOTS.
+- Studi kasus kompleks.
+- Proyek kontekstual.
+- Analisis dalil.
+- Aktivitas eksplorasi.
+- Tugas refleksi dan kolaborasi.
+
+Rekomendasi harus berdasarkan hasil asesmen, bukan penilaian subjektif terhadap karakter atau religiositas peserta didik.
+
+### MODUL 15 – EXPORT CENTER
+
+Sediakan ekspor:
+
+1. Word (.docx).
+2. PDF.
+3. Excel (.xlsx).
+4. CSV.
+5. Google Forms melalui fitur ekspor yang didukung.
+6. Format teks siap salin.
+7. Format kisi-kisi.
+8. Format rubrik.
+9. Format rekap nilai.
+
+Dokumen harus rapi, profesional, memiliki header, identitas asesmen, tabel yang konsisten, dan format siap cetak.
+
+Pisahkan dokumen soal peserta didik dan dokumen guru yang berisi kunci serta pembahasan.
+
+## 6. SISTEM PENGATURAN KOMPOSISI SOAL
+
+Buat pengaturan fleksibel.
+
+Contoh:
+- 40 soal pilihan ganda.
+- 30 soal pilihan ganda dan 5 uraian.
+- 20 pilihan ganda, 10 pilihan ganda kompleks, 5 uraian.
+- 100 soal bank soal.
+- Paket asesmen khusus HOTS.
+
+Komposisi kognitif dapat diatur berdasarkan persentase.
+
+Contoh konfigurasi:
+- LOTS: 20%.
+- MOTS: 40%.
+- HOTS: 40%.
+
+Persentase harus dihitung secara otomatis dan jumlah akhirnya harus sesuai dengan jumlah soal yang diminta.
+
+Jika hasil pembulatan menyebabkan selisih, lakukan penyesuaian otomatis dan tampilkan distribusi aktual.
+
+## 7. DESAIN USER INTERFACE
+
+Gunakan desain modern dengan karakteristik:
+
+- Dashboard profesional.
+- Sidebar navigasi.
+- Tampilan bersih dan minimalis.
+- Warna utama navy, putih, dan aksen hijau atau biru.
+- Tipografi modern dan mudah dibaca.
+- Kartu statistik.
+- Grafik interaktif.
+- Tabel responsif.
+- Modal dan formulir yang mudah digunakan.
+- Loading indicator saat AI menghasilkan soal.
+- Notifikasi keberhasilan dan kegagalan.
+- Responsif untuk desktop, tablet, dan smartphone.
+
+Buat pengalaman penggunaan yang sederhana:
+
+Pilih Fase → Pilih Kelas → Pilih Elemen → Pilih TP → Pilih Materi → Atur Asesmen → Generate → Validasi → Edit → Simpan → Export.
+
+Jangan membuat pengguna harus mengisi ulang data yang sudah dipilih.
+
+## 8. KETENTUAN TEKNIS PENGEMBANGAN
+
+Bangun aplikasi menggunakan arsitektur yang modular.
+
+Komponen utama:
+- Frontend responsif.
+- Backend/API.
+- Integrasi model AI.
+- Database persisten.
+- Sistem autentikasi.
+- Penyimpanan bank soal.
+- Pengelolaan pengguna.
+- Sistem ekspor dokumen.
+
+Ketentuan:
+1. Pisahkan data kurikulum dari logika generator AI.
+2. Gunakan database terstruktur.
+3. Simpan data pengguna secara persisten.
+4. Jangan mengandalkan local state sebagai satu-satunya penyimpanan.
+5. Terapkan validasi input.
+6. Terapkan penanganan error.
+7. Terapkan loading state.
+8. Gunakan pagination pada tabel besar.
+9. Lindungi API key dan kredensial.
+10. Pastikan data antar pengguna terisolasi.
+11. Buat kode yang modular dan mudah dikembangkan.
+12. Hindari tombol yang tidak berfungsi.
+13. Semua fitur yang ditampilkan harus memiliki fungsi nyata.
+
+Jika terdapat fitur yang memerlukan layanan eksternal, integrasikan melalui API atau mekanisme yang tersedia dan berikan keterangan apabila koneksi belum dikonfigurasi.
+
+## 9. KONTROL KUALITAS GENERATOR AI
+
+Gunakan instruksi sistem khusus untuk generator:
+
+"Anda adalah AI Assessment Specialist Pendidikan Agama Islam dan Budi Pekerti. Tugas Anda adalah menghasilkan instrumen asesmen yang sepenuhnya sesuai dengan parameter yang dipilih guru.
+
+Prioritaskan kesesuaian dengan CP, TP, materi, dan indikator.
+
+Jangan mengubah materi pilihan pengguna.
+Jangan mencampurkan materi antarfase.
+Jangan menghasilkan soal di luar cakupan.
+Jangan membuat pertanyaan yang hanya mengganti kata-kata tetapi mengukur kompetensi yang sama secara berulang.
+Jangan menghasilkan kunci jawaban yang tidak sesuai dengan pertanyaan.
+Jangan menghasilkan distraktor yang tidak masuk akal.
+Jangan mengarang dalil.
+Jangan membuat klaim keagamaan yang tidak memiliki dasar yang dapat diverifikasi.
+
+Setiap soal harus memiliki satu tujuan pengukuran yang jelas.
+
+Sebelum menampilkan hasil, lakukan pemeriksaan internal terhadap relevansi, ketepatan, validitas, dan konsistensi soal.
+
+Jika informasi tidak cukup, tanyakan atau tampilkan keterbatasan, jangan mengarang."
+
+## 10. DATA DAN PENGATURAN YANG DAPAT DISESUAIKAN
+
+Sediakan pengaturan agar guru dapat:
+- Mengedit CP, TP, dan ATP.
+- Mengubah alokasi waktu.
+- Menambah materi.
+- Menghapus materi.
+- Menambah referensi.
+- Mengatur komposisi soal.
+- Mengatur standar penilaian.
+- Menentukan format dokumen.
+- Menentukan identitas sekolah.
+- Mengatur semester dan tahun pelajaran.
+
+Simpan perubahan agar dapat digunakan pada sesi berikutnya.
+
+## 11. PENGUJIAN APLIKASI
+
+Sebelum aplikasi dinyatakan selesai, lakukan pengujian:
+
+TEST 1:
+Pilih Fase E, Kelas X, Elemen Fikih, TP E.F.2, materi Al-Kulliyat Al-Khamsah. Generate 10 soal pilihan ganda HOTS.
+
+Pastikan seluruh soal benar-benar membahas Al-Kulliyat Al-Khamsah.
+
+TEST 2:
+Pilih Fase F, Kelas XI, Elemen Al-Qur'an Hadis, TP F.AQH.1, materi berpikir kritis.
+
+Pastikan soal mengukur kemampuan analisis dan penerapan berpikir kritis.
+
+TEST 3:
+Pilih Fase F, Kelas XII, Elemen Fikih, TP F.F.4, materi Mawaris.
+
+Pastikan soal menggunakan kasus pembagian warisan sederhana dengan perhitungan yang benar dan asumsi kasus yang jelas.
+
+TEST 4:
+Buat soal uraian dengan rubrik penilaian otomatis.
+
+Pastikan rubrik sesuai dengan indikator soal.
+
+TEST 5:
+Generate kisi-kisi dan soal secara bersamaan.
+
+Pastikan nomor, indikator, TP, dan materi pada kisi-kisi sama dengan soal yang dihasilkan.
+
+TEST 6:
+Ubah satu soal secara manual.
+
+Pastikan perubahan tersimpan dan hasil ekspor mengikuti versi terakhir.
+
+TEST 7:
+Lakukan pengujian isolasi data pengguna dan penyimpanan permanen.
+
+## 12. PRIORITAS PENGEMBANGAN
+
+Kembangkan aplikasi secara bertahap:
+
+Prioritas 1:
+- Dashboard.
+- Database CP, TP, ATP.
+- Generator kisi-kisi.
+- Generator soal.
+- Integrasi Bloom dan SOLO.
+- Editor hasil AI.
+
+Prioritas 2:
+- Validator soal.
+- Bank soal.
+- Generator rubrik.
+- Paket asesmen.
+- Export Word, PDF, Excel.
+
+Prioritas 3:
+- Asesmen non-tes.
+- Asesmen tilawah dan tahfiz.
+- Analisis hasil asesmen.
+- Remedial dan pengayaan.
+- Grafik laporan.
+
+Pastikan prioritas pertama berfungsi sempurna sebelum mengembangkan seluruh fitur lanjutan.
+
+## 13. INSTRUKSI AKHIR
+
+Bangun aplikasi yang benar-benar dapat digunakan oleh guru, bukan sekadar desain prototipe.
+
+Jangan hanya membuat tampilan dashboard tanpa fungsi.
+
+Jangan menggunakan data dummy sebagai hasil permanen.
+
+Jangan membuat tombol yang hanya bersifat dekoratif.
+
+Jangan mengabaikan parameter pengguna ketika menghasilkan soal.
+
+Jangan menyederhanakan fitur penting yang sudah ditentukan.
+
+Pastikan setiap modul terhubung satu sama lain, data tersimpan, dan hasil dapat diedit serta diekspor.
+
+Hasil akhir harus menjadi platform asesmen PAIBP Fase E dan F yang profesional, akurat secara kurikulum, kuat secara pedagogis, dan mudah digunakan guru SMA/MA/SMK.
+
+Mulailah dengan merancang arsitektur aplikasi, skema database, struktur navigasi, dan alur kerja pengguna. Kemudian implementasikan aplikasi secara bertahap dan lakukan pengujian setiap modul sebelum melanjutkan ke tahap berikutnya.

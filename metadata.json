@@ -1,0 +1,8 @@
+{
+  "name": "Remix PAIBP Smart Assessment Pro – Fase E \u0026 F 2026",
+  "description": "Platform AI Perancang Asesmen, Pembuat Soal HOTS/LOTS, Bank Soal, Rubrik, dan Analisis Pembelajaran PAIBP SMA/MA/SMK Fase E \u0026 F Kurikulum Merdeka.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

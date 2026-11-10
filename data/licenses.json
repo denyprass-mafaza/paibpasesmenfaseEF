@@ -4,15 +4,22 @@
       "license_id": "LIC-1793946766993-9364",
       "license_code": "PAIBP-EF26-CYCF-9U2W-RSL9",
       "product_id": "PAIBP-EF-2026",
-      "status": "UNUSED",
+      "status": "ACTIVE",
       "license_type": "LIFETIME",
       "created_at": "2026-11-06T06:32:46.992Z",
-      "activated_at": null,
+      "activated_at": "2026-11-10T17:07:18.520Z",
       "expired_at": null,
       "activation_limit": 5,
-      "activation_count": 0,
+      "activation_count": 1,
       "max_devices": 5,
-      "devices": [],
+      "devices": [
+        {
+          "device_id": "DEV-TEST-CURL",
+          "activated_at": "2026-11-10T17:07:18.520Z",
+          "last_used_at": "2026-11-10T17:07:18.520Z",
+          "label": "Perangkat #1"
+        }
+      ],
       "customer_label": "Deny Prasetyo (denyprass38@gmail.com)",
       "notes": "Lisensi Resmi Eksklusif Lifetime PRO",
       "created_by": "OWNER"
@@ -1876,9 +1883,26 @@
       "rubricCount": 0,
       "analyticsCount": 0,
       "date": "2026-11-06"
+    },
+    "DEV-TEST-CURL": {
+      "generateCount": 0,
+      "kisiKisiCount": 0,
+      "packageCount": 0,
+      "rubricCount": 0,
+      "analyticsCount": 0,
+      "date": "2026-11-10"
     }
   },
   "activationLogs": [
+    {
+      "id": "LOG-1794330438522-556",
+      "license_code": "PAIBP-EF26-CYCF-9U2W-RSL9",
+      "status": "SUCCESS",
+      "device_id_masked": "DEV-...CURL",
+      "timestamp": "2026-11-10T17:07:18.522Z",
+      "ip": "127.0.0.1",
+      "details": "Aktivasi baru berhasil (Device 1/5)"
+    },
     {
       "id": "LOG-1793946363018-712",
       "license_code": "PAIBP-EF26-DEV1-MAX1-5533",

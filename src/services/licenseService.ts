@@ -7,9 +7,11 @@ import {
   OwnerContactInfo,
   FeatureAccess,
 } from '../types/license';
+import { DEFAULT_LICENSES, verifyLicenseCodeLocally } from '../data/defaultLicenses';
 
 const STORAGE_KEY_LICENSE_CODE = 'paibp_license_code_v1';
 const STORAGE_KEY_DEVICE_ID = 'paibp_device_id_v1';
+const STORAGE_KEY_LOCAL_QUOTA = 'paibp_local_quota_v1';
 
 export function getOrCreateDeviceId(): string {
   let devId = localStorage.getItem(STORAGE_KEY_DEVICE_ID);
@@ -32,7 +34,7 @@ export function setStoredLicenseCode(code: string) {
   }
 }
 
-const DEFAULT_DEMO_SETTINGS: DemoSettings = {
+export const DEFAULT_DEMO_SETTINGS: DemoSettings = {
   maxGeneratePerSession: 5,
   maxGeneratePerDay: 20,
   maxKisiKisiPerDay: 1,
@@ -48,7 +50,7 @@ const DEFAULT_DEMO_SETTINGS: DemoSettings = {
   watermarkText: 'DEMO – PAIBP SMART ASSESSMENT PRO',
 };
 
-const DEFAULT_CONTACT_INFO: OwnerContactInfo = {
+export const DEFAULT_CONTACT_INFO: OwnerContactInfo = {
   whatsapp: '6281234567890',
   email: 'owner@paibp-smartassessment.id',
   purchaseUrl: 'https://wa.me/6281234567890?text=Halo%20Owner%20PAIBP%20Smart%20Assessment%20Pro',
@@ -56,7 +58,7 @@ const DEFAULT_CONTACT_INFO: OwnerContactInfo = {
   customNote: 'Hubungi Tim Pengembang Resmi PAIBP Smart Assessment Pro untuk aktivasi lisensi sekolah atau pribadi.',
 };
 
-const DEFAULT_FEATURE_FLAGS: Record<FeatureFlagKey, FeatureAccess> = {
+export const DEFAULT_FEATURE_FLAGS: Record<FeatureFlagKey, FeatureAccess> = {
   basic_generator: 'DEMO',
   advanced_generator: 'PRO',
   question_bank: 'DEMO',
@@ -76,25 +78,78 @@ const DEFAULT_FEATURE_FLAGS: Record<FeatureFlagKey, FeatureAccess> = {
   import_bank: 'PRO',
 };
 
-// Initial state for DEMO mode
-let currentLicenseState: ClientLicenseState = {
-  role: 'DEMO_USER',
-  status: 'DEMO',
-  isPro: false,
-  licenseInfo: null,
-  quotaToday: {
+function getLocalQuota(): QuotaToday {
+  const today = new Date().toISOString().slice(0, 10);
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_LOCAL_QUOTA);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.date === today) {
+        return parsed;
+      }
+    }
+  } catch {
+    // fallback
+  }
+  const fresh: QuotaToday = {
     generateCount: 0,
     kisiKisiCount: 0,
     packageCount: 0,
     rubricCount: 0,
     analyticsCount: 0,
-    date: new Date().toISOString().slice(0, 10),
-  },
-  demoSettings: DEFAULT_DEMO_SETTINGS,
-  featureFlags: DEFAULT_FEATURE_FLAGS,
-  contactInfo: DEFAULT_CONTACT_INFO,
-  deviceId: getOrCreateDeviceId(),
-};
+    date: today,
+  };
+  localStorage.setItem(STORAGE_KEY_LOCAL_QUOTA, JSON.stringify(fresh));
+  return fresh;
+}
+
+function saveLocalQuota(quota: QuotaToday) {
+  try {
+    localStorage.setItem(STORAGE_KEY_LOCAL_QUOTA, JSON.stringify(quota));
+  } catch {
+    // ignore
+  }
+}
+
+// Compute initial state synchronously so app never flashes DEMO if PRO code exists
+function computeInitialState(): ClientLicenseState {
+  const deviceId = getOrCreateDeviceId();
+  const storedCode = getStoredLicenseCode();
+
+  const baseState: ClientLicenseState = {
+    role: 'DEMO_USER',
+    status: 'DEMO',
+    isPro: false,
+    licenseInfo: null,
+    quotaToday: getLocalQuota(),
+    demoSettings: DEFAULT_DEMO_SETTINGS,
+    featureFlags: DEFAULT_FEATURE_FLAGS,
+    contactInfo: DEFAULT_CONTACT_INFO,
+    deviceId,
+  };
+
+  if (storedCode) {
+    const local = verifyLicenseCodeLocally(storedCode, deviceId);
+    if (local.success && local.license) {
+      baseState.role = 'PRO_USER';
+      baseState.status = 'PRO_ACTIVE';
+      baseState.isPro = true;
+      baseState.licenseInfo = local.license;
+    } else if (local.errorType === 'EXPIRED') {
+      baseState.status = 'EXPIRED';
+      baseState.isPro = false;
+      baseState.licenseInfo = local.license || null;
+    } else if (local.errorType === 'REVOKED') {
+      baseState.status = 'REVOKED';
+      baseState.isPro = false;
+      baseState.licenseInfo = local.license || null;
+    }
+  }
+
+  return baseState;
+}
+
+let currentLicenseState: ClientLicenseState = computeInitialState();
 
 type StateChangeListener = (state: ClientLicenseState) => void;
 const listeners: Set<StateChangeListener> = new Set();
@@ -117,19 +172,38 @@ export function getCurrentLicenseState(): ClientLicenseState {
   return currentLicenseState;
 }
 
+/**
+ * Fetches license status from backend if available, or falls back seamlessly to
+ * bundled master database for static hosting environments like Vercel and GitHub exports.
+ */
 export async function fetchLicenseStatus(): Promise<ClientLicenseState> {
   const deviceId = getOrCreateDeviceId();
   const code = getStoredLicenseCode();
 
-  try {
-    const res = await fetch(`/api/license/status?deviceId=${encodeURIComponent(deviceId)}&licenseCode=${encodeURIComponent(code)}`, {
-      headers: {
-        'x-device-id': deviceId,
-        'x-license-code': code,
-      },
-    });
+  // If code exists, pre-validate locally so state is immediately reliable
+  if (code) {
+    const local = verifyLicenseCodeLocally(code, deviceId);
+    if (local.success && local.license) {
+      currentLicenseState.role = 'PRO_USER';
+      currentLicenseState.status = 'PRO_ACTIVE';
+      currentLicenseState.isPro = true;
+      currentLicenseState.licenseInfo = local.license;
+    }
+  }
 
-    if (res.ok) {
+  try {
+    const res = await fetch(
+      `/api/license/status?deviceId=${encodeURIComponent(deviceId)}&licenseCode=${encodeURIComponent(code)}`,
+      {
+        headers: {
+          'x-device-id': deviceId,
+          'x-license-code': code,
+        },
+      }
+    );
+
+    const contentType = res.headers.get('content-type') || '';
+    if (res.ok && contentType.includes('application/json')) {
       const data = await res.json();
       if (data.success) {
         currentLicenseState = {
@@ -137,16 +211,14 @@ export async function fetchLicenseStatus(): Promise<ClientLicenseState> {
           status: data.status,
           isPro: data.isPro,
           licenseInfo: data.licenseInfo,
-          quotaToday: data.quotaToday,
+          quotaToday: data.quotaToday || currentLicenseState.quotaToday,
           demoSettings: data.demoSettings || DEFAULT_DEMO_SETTINGS,
           featureFlags: data.featureFlags || DEFAULT_FEATURE_FLAGS,
           contactInfo: data.contactInfo || DEFAULT_CONTACT_INFO,
           deviceId,
         };
 
-        // If license became invalid or revoked on server, remove it from local storage
         if (code && !data.isPro && (data.status === 'REVOKED' || data.status === 'DEMO')) {
-          // Keep expired code for notice, but remove unrecognized codes
           if (data.status === 'DEMO') {
             setStoredLicenseCode('');
           }
@@ -157,16 +229,35 @@ export async function fetchLicenseStatus(): Promise<ClientLicenseState> {
       }
     }
   } catch (err) {
-    console.warn('Failed to fetch license status from backend:', err);
+    // Fallback for Vercel static deployments or offline use:
+    // Retain current verified PRO state if code is valid
+    console.warn('Backend server unavailable (static Vercel/offline mode): running with local license engine.');
   }
 
+  notifyListeners();
   return currentLicenseState;
 }
 
-export async function activateProLicense(code: string): Promise<{ success: boolean; message: string; state?: ClientLicenseState }> {
+/**
+ * Activates PRO license.
+ * Dual-Mode: Attempts server-authoritative activation first.
+ * If server is unavailable (such as on Vercel static deployments),
+ * performs authoritative client-side validation against DEFAULT_LICENSES and official key patterns.
+ */
+export async function activateProLicense(
+  code: string
+): Promise<{ success: boolean; message: string; state?: ClientLicenseState }> {
   const deviceId = getOrCreateDeviceId();
   const cleanCode = (code || '').trim().toUpperCase();
 
+  if (!cleanCode) {
+    return { success: false, message: 'Silakan masukkan kode aktivasi Anda.' };
+  }
+
+  // Pre-validate locally
+  const localCheck = verifyLicenseCodeLocally(cleanCode, deviceId);
+
+  // 1. Try server activation first (when Express server is running)
   try {
     const res = await fetch('/api/license/activate', {
       method: 'POST',
@@ -174,22 +265,81 @@ export async function activateProLicense(code: string): Promise<{ success: boole
       body: JSON.stringify({ code: cleanCode, deviceId }),
     });
 
-    const json = await res.json();
-    if (json.success) {
-      setStoredLicenseCode(cleanCode);
-      await fetchLicenseStatus();
-      return { success: true, message: json.message, state: currentLicenseState };
-    } else {
-      return { success: false, message: json.message || 'Kode aktivasi tidak valid.' };
+    const contentType = res.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const json = await res.json();
+      if (json.success) {
+        setStoredLicenseCode(cleanCode);
+        currentLicenseState = {
+          ...currentLicenseState,
+          role: 'PRO_USER',
+          status: 'PRO_ACTIVE',
+          isPro: true,
+          licenseInfo: json.license || localCheck.license,
+        };
+        notifyListeners();
+        return { success: true, message: json.message, state: currentLicenseState };
+      } else {
+        // Explicit rejection from server (e.g. REVOKED or RATE_LIMIT)
+        return { success: false, message: json.message || 'Kode aktivasi tidak valid.' };
+      }
     }
-  } catch (err: any) {
-    return { success: false, message: 'Gagal terhubung ke server validasi lisensi: ' + err.message };
+  } catch (err) {
+    console.warn('Backend activation endpoint unreachable, switching to static/Vercel verification mode:', err);
   }
+
+  // 2. Fallback for Vercel Static Deployments & GitHub Repositories
+  if (localCheck.success && localCheck.license) {
+    setStoredLicenseCode(cleanCode);
+    currentLicenseState = {
+      ...currentLicenseState,
+      role: 'PRO_USER',
+      status: 'PRO_ACTIVE',
+      isPro: true,
+      licenseInfo: localCheck.license,
+    };
+    notifyListeners();
+    return {
+      success: true,
+      message: localCheck.message || '🎉 Aktivasi berhasil! PAIBP SMART ASSESSMENT PRO sekarang aktif dalam MODE PRO.',
+      state: currentLicenseState,
+    };
+  }
+
+  return {
+    success: false,
+    message:
+      localCheck.message ||
+      'Kode aktivasi tidak valid. Periksa kembali kode yang Anda masukkan atau hubungi OWNER untuk mendapatkan bantuan.',
+  };
 }
 
 export async function deactivateLicense(): Promise<void> {
+  const deviceId = getOrCreateDeviceId();
   setStoredLicenseCode('');
-  await fetchLicenseStatus();
+
+  try {
+    await fetch('/api/license/deactivate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deviceId }),
+    });
+  } catch {
+    // Ignore backend failure on static hosting
+  }
+
+  currentLicenseState = {
+    role: 'DEMO_USER',
+    status: 'DEMO',
+    isPro: false,
+    licenseInfo: null,
+    quotaToday: getLocalQuota(),
+    demoSettings: DEFAULT_DEMO_SETTINGS,
+    featureFlags: DEFAULT_FEATURE_FLAGS,
+    contactInfo: DEFAULT_CONTACT_INFO,
+    deviceId,
+  };
+  notifyListeners();
 }
 
 export async function consumeServerQuota(
@@ -203,6 +353,7 @@ export async function consumeServerQuota(
   const deviceId = getOrCreateDeviceId();
   const licenseCode = getStoredLicenseCode();
 
+  // Try server first
   try {
     const res = await fetch('/api/license/consume-quota', {
       method: 'POST',
@@ -214,24 +365,104 @@ export async function consumeServerQuota(
       body: JSON.stringify({ deviceId, action, amount }),
     });
 
-    if (res.ok) {
+    const contentType = res.headers.get('content-type') || '';
+    if (res.ok && contentType.includes('application/json')) {
       const data = await res.json();
       if (data.allowed) {
-        // Update local quota record
         if (action === 'generate') currentLicenseState.quotaToday.generateCount += amount;
         else if (action === 'kisi') currentLicenseState.quotaToday.kisiKisiCount += amount;
         else if (action === 'package') currentLicenseState.quotaToday.packageCount += amount;
         else if (action === 'rubric') currentLicenseState.quotaToday.rubricCount += amount;
         else if (action === 'analytics') currentLicenseState.quotaToday.analyticsCount += amount;
+        saveLocalQuota(currentLicenseState.quotaToday);
         notifyListeners();
       }
       return data;
     }
   } catch (err) {
-    console.warn('Backend quota check failed:', err);
+    console.warn('Backend quota check unreachable, using local quota system:', err);
   }
 
-  return { allowed: true, remaining: 1 };
+  // Local quota fallback for Vercel static deployments
+  const quota = getLocalQuota();
+  const s = currentLicenseState.demoSettings;
+
+  if (action === 'generate') {
+    if (quota.generateCount + amount > s.maxGeneratePerDay) {
+      return {
+        allowed: false,
+        remaining: 0,
+        message: 'Batas penggunaan DEMO hari ini telah tercapai (maksimal 20 soal per hari). Aktivasi PRO untuk membuka generator tanpa batas.',
+      };
+    }
+    quota.generateCount += amount;
+    saveLocalQuota(quota);
+    currentLicenseState.quotaToday = quota;
+    notifyListeners();
+    return { allowed: true, remaining: s.maxGeneratePerDay - quota.generateCount };
+  }
+
+  if (action === 'kisi') {
+    if (quota.kisiKisiCount + amount > s.maxKisiKisiPerDay) {
+      return {
+        allowed: false,
+        remaining: 0,
+        message: 'Batas pembuatan kisi-kisi mode DEMO (1 kisi-kisi per hari) telah tercapai. Aktivasi PRO untuk akses tanpa batas.',
+      };
+    }
+    quota.kisiKisiCount += amount;
+    saveLocalQuota(quota);
+    currentLicenseState.quotaToday = quota;
+    notifyListeners();
+    return { allowed: true, remaining: s.maxKisiKisiPerDay - quota.kisiKisiCount };
+  }
+
+  if (action === 'package') {
+    if (quota.packageCount + amount > s.maxPackagePerDay) {
+      return {
+        allowed: false,
+        remaining: 0,
+        message: 'Batas pembuatan paket asesmen mode DEMO (1 paket per hari) telah tercapai. Aktivasi PRO untuk akses tanpa batas.',
+      };
+    }
+    quota.packageCount += amount;
+    saveLocalQuota(quota);
+    currentLicenseState.quotaToday = quota;
+    notifyListeners();
+    return { allowed: true, remaining: s.maxPackagePerDay - quota.packageCount };
+  }
+
+  if (action === 'rubric') {
+    if (quota.rubricCount + amount > s.maxRubricPerDay) {
+      return {
+        allowed: false,
+        remaining: 0,
+        message: 'Batas pembuatan rubrik mode DEMO (1 rubrik per hari) telah tercapai. Aktivasi PRO untuk akses tanpa batas.',
+      };
+    }
+    quota.rubricCount += amount;
+    saveLocalQuota(quota);
+    currentLicenseState.quotaToday = quota;
+    notifyListeners();
+    return { allowed: true, remaining: s.maxRubricPerDay - quota.rubricCount };
+  }
+
+  if (action === 'analytics') {
+    if (quota.analyticsCount + amount > s.maxAnalyticsPerDay) {
+      return {
+        allowed: false,
+        remaining: 0,
+        message: 'Batas analisis hasil mode DEMO (1 kali per hari) telah tercapai. Aktivasi PRO untuk analisis tanpa batas.',
+      };
+    }
+    quota.analyticsCount += amount;
+    saveLocalQuota(quota);
+    currentLicenseState.quotaToday = quota;
+    notifyListeners();
+    return { allowed: true, remaining: s.maxAnalyticsPerDay - quota.analyticsCount };
+  }
+
+  return { allowed: true, remaining: 999 };
 }
 
 // ----------------------------------------------------

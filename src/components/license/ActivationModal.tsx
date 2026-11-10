@@ -242,10 +242,25 @@ export const ActivationModal: React.FC<Props> = ({ isOpen, onClose, onSuccess })
                       Klik tombol salin di samping untuk mengisi kode:
                     </div>
 
+                    <div className="flex items-center justify-between p-1.5 bg-emerald-50/80 border border-emerald-200 rounded-md">
+                      <div>
+                        <div className="font-mono font-bold text-emerald-800">PAIBP-EF26-CYCF-9U2W-RSL9</div>
+                        <div className="text-[10px] text-emerald-700 font-medium">Lisensi Eksklusif Lifetime Deny Prasetyo (Sinkron GitHub &amp; Vercel)</div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleCopy('PAIBP-EF26-CYCF-9U2W-RSL9')}
+                        className="p-1 text-emerald-700 hover:text-emerald-900"
+                        title="Salin & Gunakan"
+                      >
+                        {copiedCode === 'PAIBP-EF26-CYCF-9U2W-RSL9' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                      </button>
+                    </div>
+
                     <div className="flex items-center justify-between p-1.5 bg-white border border-slate-200 rounded-md">
                       <div>
                         <div className="font-mono font-bold text-emerald-700">PAIBP-EF26-LIFE-PRO1-9988</div>
-                        <div className="text-[10px] text-slate-400">Lifetime Pro (Aktif tanpa batas waktu, 3 Perangkat)</div>
+                        <div className="text-[10px] text-slate-400">Lifetime Pro (Aktif tanpa batas waktu, 5 Perangkat)</div>
                       </div>
                       <button
                         type="button"

@@ -19,30 +19,31 @@ export const ProFeatureModal: React.FC<Props> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200 overflow-y-auto">
+      <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all max-h-[92vh] flex flex-col">
         {/* Header with gradient */}
-        <div className="bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 p-6 text-white text-center relative">
+        <div className="bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 p-4 sm:p-6 text-white text-center relative shrink-0">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition"
+            className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition min-h-[44px] min-w-[44px] flex items-center justify-center"
+            aria-label="Tutup"
           >
             <X className="w-4 h-4" />
           </button>
-          <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-inner">
-            <Lock className="w-7 h-7 text-amber-300" />
+          <div className="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-2 sm:mb-3 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-inner">
+            <Lock className="w-6 h-6 sm:w-7 sm:h-7 text-amber-300" />
           </div>
-          <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase bg-amber-400 text-slate-900 shadow-xs mb-2">
+          <span className="inline-block px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wider uppercase bg-amber-400 text-slate-900 shadow-xs mb-2">
             🔐 FITUR PRO
           </span>
-          <h3 className="text-xl font-extrabold tracking-tight">{featureTitle}</h3>
+          <h3 className="text-lg sm:text-xl font-extrabold tracking-tight">{featureTitle}</h3>
           <p className="text-emerald-100 text-xs mt-1 leading-relaxed">
             {featureDescription || 'Fitur ini tersedia pada versi PRO PAIBP Smart Assessment Pro 2026.'}
           </p>
         </div>
 
         {/* Benefits List */}
-        <div className="p-6 space-y-4">
+        <div className="p-4 sm:p-6 space-y-4 overflow-y-auto custom-scrollbar flex-1">
           <p className="text-xs font-semibold text-slate-700">
             Aktifkan lisensi Anda untuk membuka seluruh fitur premium:
           </p>

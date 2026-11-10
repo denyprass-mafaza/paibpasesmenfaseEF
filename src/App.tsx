@@ -22,7 +22,7 @@ import {
   fetchLicenseStatus,
 } from './services/licenseService';
 
-import { Sidebar, Navbar, ActiveModule } from './components/Navigation';
+import { Sidebar, Navbar, MobileBottomNav, ActiveModule } from './components/Navigation';
 import { SchoolProfileModal } from './components/SchoolProfileModal';
 
 // License & Owner Components
@@ -201,7 +201,7 @@ export function App() {
           onOpenLicenseInfo={() => setIsLicenseInfoOpen(true)}
         />
 
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-3 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto pb-24 lg:pb-8">
           {/* Non-intrusive Demo Banner & Quota Indicator */}
           <DemoBanner
             state={licenseState}
@@ -424,6 +424,15 @@ export function App() {
         isOpen={isOwnerPanelOpen}
         onClose={() => setIsOwnerPanelOpen(false)}
         onRefreshLicenseState={() => fetchLicenseStatus()}
+      />
+
+      {/* Mobile-First Fixed Bottom Navigation Bar */}
+      <MobileBottomNav
+        activeModule={activeModule}
+        setActiveModule={setActiveModule}
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
+        licenseState={licenseState}
       />
     </div>
   );

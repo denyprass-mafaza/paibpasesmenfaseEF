@@ -295,54 +295,57 @@ export const Navbar: React.FC<{
   const isPro = licenseState.isPro && licenseState.status === 'PRO_ACTIVE';
 
   return (
-    <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 lg:px-8 py-3 flex items-center justify-between shadow-xs">
-      <div className="flex items-center gap-3">
+    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between shadow-xs">
+      {/* Left: Mobile hamburger & module title */}
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-2">
         <button
           onClick={() => setMobileMenuOpen(true)}
-          className="lg:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100"
+          className="lg:hidden p-2 -ml-1 text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-100 min-h-[44px] min-w-[44px] flex items-center justify-center shrink-0 active:scale-95 transition"
+          aria-label="Buka Menu Modul"
         >
           <Menu className="w-5 h-5" />
         </button>
-        <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-sm lg:text-base font-bold text-slate-800">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <h2 className="text-xs sm:text-sm lg:text-base font-bold text-slate-800 truncate">
               {currentTitle}
             </h2>
             {isPro ? (
-              <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200">
-                PRO AKTIF
+              <span className="shrink-0 px-1.5 sm:px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                PRO
               </span>
             ) : (
-              <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200">
-                MODE DEMO
+              <span className="shrink-0 px-1.5 sm:px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200">
+                DEMO
               </span>
             )}
           </div>
-          <p className="text-[11px] text-slate-500 hidden sm:block">
+          <p className="text-[10px] sm:text-[11px] text-slate-500 hidden sm:block truncate">
             Pendidikan Agama Islam dan Budi Pekerti SMA/MA/SMK • TP {profil.tahunPelajaran}
           </p>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 sm:gap-3">
-        {/* Quick Test Shortcuts */}
+      {/* Right: Quick actions & status */}
+      <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        {/* Quick Test Shortcuts (Desktop Only) */}
         <div className="hidden xl:flex items-center gap-1.5 bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs">
           <span className="text-[10px] uppercase font-bold text-slate-400 px-2">Uji Cepat:</span>
           <button
             onClick={() => setActiveModule('generator')}
-            className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white text-emerald-700 shadow-xs hover:bg-emerald-50 transition border border-slate-200/80"
+            className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white text-emerald-700 shadow-xs hover:bg-emerald-50 transition border border-slate-200/80 cursor-pointer"
           >
             Test 1: Khamsah
           </button>
           <button
             onClick={() => setActiveModule('generator')}
-            className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white text-blue-700 shadow-xs hover:bg-blue-50 transition border border-slate-200/80"
+            className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white text-blue-700 shadow-xs hover:bg-blue-50 transition border border-slate-200/80 cursor-pointer"
           >
             Test 2: Kritis
           </button>
           <button
             onClick={() => setActiveModule('generator')}
-            className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white text-indigo-700 shadow-xs hover:bg-indigo-50 transition border border-slate-200/80"
+            className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white text-indigo-700 shadow-xs hover:bg-indigo-50 transition border border-slate-200/80 cursor-pointer"
           >
             Test 3: Mawaris
           </button>
@@ -352,33 +355,114 @@ export const Navbar: React.FC<{
         {!isPro ? (
           <button
             onClick={onOpenActivation}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-black text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 rounded-lg shadow-sm transition cursor-pointer"
+            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-black text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 rounded-xl shadow-xs transition active:scale-95 cursor-pointer min-h-[40px]"
           >
-            <KeyRound className="w-3.5 h-3.5" />
-            <span>🔓 AKTIVASI PRO</span>
+            <KeyRound className="w-3.5 h-3.5 shrink-0" />
+            <span className="hidden xs:inline">AKTIVASI</span>
+            <span className="xs:hidden">PRO</span>
           </button>
         ) : (
           <button
             onClick={onOpenLicenseInfo}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg border border-emerald-200 transition"
+            className="flex items-center gap-1 px-2 sm:px-2.5 py-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200 transition active:scale-95 min-h-[40px] cursor-pointer"
+            title="Informasi Lisensi Pro"
           >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>PRO</span>
+            <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span className="hidden sm:inline">PRO AKTIF</span>
+            <span className="sm:hidden">PRO</span>
           </button>
         )}
 
         {/* School settings trigger */}
         <button
           onClick={onOpenSettings}
-          className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition border border-slate-200"
+          className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition border border-slate-200 active:scale-95 min-h-[40px] cursor-pointer"
+          title="Pengaturan Profil Sekolah"
         >
-          <School className="w-4 h-4 text-emerald-600" />
-          <span className="hidden sm:inline">
+          <School className="w-4 h-4 text-emerald-600 shrink-0" />
+          <span className="hidden md:inline truncate max-w-[120px]">
             {profil.namaSekolah.split(' ')[0]} {profil.namaSekolah.split(' ')[1] || ''}
           </span>
-          <Settings className="w-3.5 h-3.5 text-slate-400" />
+          <Settings className="w-3.5 h-3.5 text-slate-400 hidden sm:inline shrink-0" />
         </button>
       </div>
     </header>
+  );
+};
+
+/**
+ * Pattern 1: Fixed Bottom Tab Bar for Mobile & Touch-First Viewports
+ * Provides thumb-reachable instant access to primary modules and drawer toggle.
+ */
+export const MobileBottomNav: React.FC<{
+  activeModule: ActiveModule;
+  setActiveModule: (m: ActiveModule) => void;
+  mobileMenuOpen: boolean;
+  setMobileMenuOpen: (o: boolean) => void;
+  licenseState: ClientLicenseState;
+}> = ({
+  activeModule,
+  setActiveModule,
+  mobileMenuOpen,
+  setMobileMenuOpen,
+  licenseState,
+}) => {
+  const bottomTabs: {
+    id: ActiveModule | 'menu';
+    label: string;
+    icon: React.FC<any>;
+  }[] = [
+    { id: 'dashboard', label: 'Beranda', icon: LayoutDashboard },
+    { id: 'generator', label: 'AI Soal', icon: Sparkles },
+    { id: 'bank', label: 'Bank Soal', icon: Database },
+    { id: 'grading', label: 'Nilai', icon: GraduationCap },
+    { id: 'menu', label: 'Semua', icon: Menu },
+  ];
+
+  return (
+    <nav
+      aria-label="Navigasi Bawah Mobile"
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-2 py-1 grid grid-cols-5 items-center"
+      style={{ paddingBottom: 'max(0.375rem, env(safe-area-inset-bottom, 6px))' }}
+    >
+      {bottomTabs.map((tab) => {
+        const Icon = tab.icon;
+        const isMenuTab = tab.id === 'menu';
+        const isCurrentActive = isMenuTab ? mobileMenuOpen : activeModule === tab.id;
+
+        return (
+          <button
+            key={tab.id}
+            onClick={() => {
+              if (isMenuTab) {
+                setMobileMenuOpen(!mobileMenuOpen);
+              } else {
+                setActiveModule(tab.id as ActiveModule);
+                setMobileMenuOpen(false);
+              }
+            }}
+            className={`min-h-[48px] py-1 px-1 flex flex-col items-center justify-center rounded-xl transition relative group cursor-pointer active:scale-95 ${
+              isCurrentActive
+                ? 'text-emerald-700 font-bold'
+                : 'text-slate-500 hover:text-slate-900 font-medium'
+            }`}
+          >
+            {isCurrentActive && (
+              <span className="absolute top-0.5 w-6 h-0.5 bg-emerald-600 rounded-full" />
+            )}
+            <div
+              className={`p-1 rounded-lg transition ${
+                isCurrentActive ? 'bg-emerald-50 text-emerald-600' : 'text-slate-500'
+              }`}
+            >
+              <Icon className="w-5 h-5 shrink-0" />
+            </div>
+            <span className="text-[10px] tracking-tight truncate max-w-full leading-tight mt-0.5">
+              {tab.label}
+            </span>
+          </button>
+        );
+      })}
+    </nav>
   );
 };

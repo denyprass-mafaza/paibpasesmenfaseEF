@@ -62,23 +62,24 @@ export const ActivationModal: React.FC<Props> = ({ isOpen, onClose, onSuccess })
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200 overflow-y-auto">
+      <div className="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="bg-gradient-to-r from-emerald-800 via-teal-800 to-slate-900 p-6 text-white relative">
+        <div className="bg-gradient-to-r from-emerald-800 via-teal-800 to-slate-900 p-4 sm:p-6 text-white relative shrink-0">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition"
+            className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition min-h-[44px] min-w-[44px] flex items-center justify-center"
+            aria-label="Tutup"
           >
             <X className="w-4 h-4" />
           </button>
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300">
-              <KeyRound className="w-6 h-6" />
+          <div className="flex items-center gap-3 pr-10">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300 shrink-0">
+              <KeyRound className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <h3 className="text-lg font-extrabold tracking-tight">AKTIVASI LISENSI PRO</h3>
-              <p className="text-xs text-emerald-200/90 mt-0.5">
+              <h3 className="text-base sm:text-lg font-extrabold tracking-tight">AKTIVASI LISENSI PRO</h3>
+              <p className="text-[11px] sm:text-xs text-emerald-200/90 mt-0.5">
                 Buka seluruh kemampuan PAIBP SMART ASSESSMENT PRO
               </p>
             </div>
@@ -86,7 +87,7 @@ export const ActivationModal: React.FC<Props> = ({ isOpen, onClose, onSuccess })
         </div>
 
         {/* Content Body */}
-        <div className="p-6 space-y-5 max-h-[80vh] overflow-y-auto custom-scrollbar">
+        <div className="p-4 sm:p-6 space-y-4 overflow-y-auto custom-scrollbar flex-1">
           {result?.success ? (
             /* Success State */
             <div className="text-center py-4 space-y-4 animate-in fade-in zoom-in-95 duration-200">

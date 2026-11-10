@@ -48,29 +48,30 @@ export const LicenseInfoModal: React.FC<Props> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200 overflow-y-auto">
+      <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="bg-slate-900 p-5 text-white flex items-center justify-between border-b border-slate-800">
+        <div className="bg-slate-900 p-4 sm:p-5 text-white flex items-center justify-between border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300 shrink-0">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-sm font-extrabold tracking-wide">INFORMASI LISENSI PENGGUNA</h3>
-              <p className="text-[11px] text-slate-400">PAIBP Smart Assessment Pro</p>
+              <h3 className="text-xs sm:text-sm font-extrabold tracking-wide">INFORMASI LISENSI PENGGUNA</h3>
+              <p className="text-[10px] sm:text-[11px] text-slate-400">PAIBP Smart Assessment Pro</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition"
+            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition min-h-[44px] min-w-[44px] flex items-center justify-center"
+            aria-label="Tutup"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Body */}
-        <div className="p-6 space-y-5 text-xs">
+        <div className="p-4 sm:p-6 space-y-4 text-xs overflow-y-auto custom-scrollbar flex-1">
           {/* Status Badge Block */}
           <div className="flex items-center justify-between p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
             <span className="font-bold text-slate-700">STATUS LISENSI</span>

@@ -1,0 +1,157 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ----------------------------------------------------
+    // Global Safety Net: Default Deny
+    // ----------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ----------------------------------------------------
+    // Hardened Global Helpers & Primitives
+    // ----------------------------------------------------
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'denyprass38@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // ----------------------------------------------------
+    // Validation Helpers (Anti-Update-Gap)
+    // ----------------------------------------------------
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt']) &&
+             data.keys().hasOnly(['uid', 'email', 'displayName', 'role', 'createdAt', 'updatedAt']) &&
+             data.uid == request.auth.uid &&
+             data.email is string && data.email.size() <= 256 &&
+             (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 150)) &&
+             (!('role' in data) || data.role in ['teacher', 'admin']);
+    }
+
+    function isValidSchoolProfile(data) {
+      return data.keys().hasAll(['userId', 'namaSekolah', 'guruMataPelajaran', 'tahunPelajaran']) &&
+             data.keys().hasOnly(['userId', 'namaSekolah', 'npsn', 'alamat', 'guruMataPelajaran', 'nipGuru', 'kepalaSekolah', 'nipKepalaSekolah', 'tahunPelajaran', 'kktpDefault', 'updatedAt']) &&
+             data.userId == request.auth.uid &&
+             data.namaSekolah is string && data.namaSekolah.size() <= 200 &&
+             data.guruMataPelajaran is string && data.guruMataPelajaran.size() <= 150 &&
+             data.tahunPelajaran is string && data.tahunPelajaran.size() <= 50;
+    }
+
+    function isValidQuestion(data) {
+      return data.keys().hasAll(['id', 'userId', 'fase', 'pertanyaan', 'kunciJawaban']) &&
+             data.userId == request.auth.uid &&
+             data.id is string && data.id.size() <= 128 &&
+             data.fase in ['E', 'F'] &&
+             data.pertanyaan is string && data.pertanyaan.size() <= 5000 &&
+             data.kunciJawaban is string && data.kunciJawaban.size() <= 1000;
+    }
+
+    function isValidPackage(data) {
+      return data.keys().hasAll(['id', 'userId', 'namaPaket', 'fase']) &&
+             data.userId == request.auth.uid &&
+             data.id is string && data.id.size() <= 128 &&
+             data.namaPaket is string && data.namaPaket.size() <= 250 &&
+             data.fase in ['E', 'F'];
+    }
+
+    function isValidStudent(data) {
+      return data.keys().hasAll(['id', 'userId', 'nama', 'kelas', 'fase']) &&
+             data.userId == request.auth.uid &&
+             data.id is string && data.id.size() <= 128 &&
+             data.nama is string && data.nama.size() <= 150 &&
+             data.kelas is string && data.kelas.size() <= 20 &&
+             data.fase in ['E', 'F'];
+    }
+
+    // ----------------------------------------------------
+    // Collection Rules
+    // ----------------------------------------------------
+
+    // Test connectivity check document
+    match /test/connection {
+      allow get: if true;
+      allow write: if isAdmin();
+    }
+
+    // User Profile Document
+    match /users/{userId}/profile/info {
+      allow get: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && isValidUserProfile(incoming());
+      allow update: if isOwner(userId) && isValidUserProfile(incoming()) &&
+                    incoming().uid == existing().uid &&
+                    incoming().createdAt == existing().createdAt;
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    // School Profile Document
+    match /users/{userId}/schoolProfile/config {
+      allow get: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && isValidSchoolProfile(incoming());
+      allow update: if isOwner(userId) && isValidSchoolProfile(incoming()) &&
+                    incoming().userId == existing().userId;
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    // Questions Subcollection
+    match /users/{userId}/questions/{questionId} {
+      allow get: if (isOwner(userId) || isAdmin()) && isValidId(questionId);
+      allow list: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && isValidId(questionId) && isValidQuestion(incoming());
+      allow update: if isOwner(userId) && isValidId(questionId) && isValidQuestion(incoming()) &&
+                    incoming().userId == existing().userId &&
+                    incoming().id == existing().id;
+      allow delete: if (isOwner(userId) || isAdmin()) && isValidId(questionId);
+    }
+
+    // Assessment Packages Subcollection
+    match /users/{userId}/assessmentPackages/{packageId} {
+      allow get: if (isOwner(userId) || isAdmin()) && isValidId(packageId);
+      allow list: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && isValidId(packageId) && isValidPackage(incoming());
+      allow update: if isOwner(userId) && isValidId(packageId) && isValidPackage(incoming()) &&
+                    incoming().userId == existing().userId &&
+                    incoming().id == existing().id;
+      allow delete: if (isOwner(userId) || isAdmin()) && isValidId(packageId);
+    }
+
+    // Students Subcollection
+    match /users/{userId}/students/{studentId} {
+      allow get: if (isOwner(userId) || isAdmin()) && isValidId(studentId);
+      allow list: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && isValidId(studentId) && isValidStudent(incoming());
+      allow update: if isOwner(userId) && isValidId(studentId) && isValidStudent(incoming()) &&
+                    incoming().userId == existing().userId &&
+                    incoming().id == existing().id;
+      allow delete: if (isOwner(userId) || isAdmin()) && isValidId(studentId);
+    }
+
+    // Admins Collection
+    match /admins/{adminId} {
+      allow get: if isSignedIn() && isValidId(adminId);
+      allow write: if isAdmin() && isValidId(adminId);
+    }
+  }
+}

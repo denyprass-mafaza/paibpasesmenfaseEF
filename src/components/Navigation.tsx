@@ -24,7 +24,11 @@ import {
   KeyRound,
   ShieldAlert,
   Lock,
+  Cloud,
+  LogIn,
+  LogOut,
 } from 'lucide-react';
+import type { User } from 'firebase/auth';
 import { ProfilSekolah } from '../types/curriculum';
 import { ClientLicenseState } from '../types/license';
 
@@ -58,6 +62,9 @@ interface Props {
   onOpenActivation: () => void;
   onOpenLicenseInfo: () => void;
   onOpenOwnerPanel: () => void;
+  currentUser?: User | null;
+  onSignInWithGoogle?: () => void;
+  onSignOut?: () => void;
 }
 
 export const NAV_ITEMS: { id: ActiveModule; label: string; icon: React.FC<any>; badge?: string; proOnly?: boolean }[] = [
@@ -91,6 +98,9 @@ export const Sidebar: React.FC<Props> = ({
   onOpenActivation,
   onOpenLicenseInfo,
   onOpenOwnerPanel,
+  currentUser,
+  onSignInWithGoogle,
+  onSignOut,
 }) => {
   const isPro = licenseState.isPro && licenseState.status === 'PRO_ACTIVE';
   const isExpired = licenseState.status === 'EXPIRED';
@@ -170,11 +180,46 @@ export const Sidebar: React.FC<Props> = ({
             </div>
             <button
               onClick={onOpenSettings}
-              title="Pengaturan Kop & Identitas Sekolah"
+              title="Pengaturan Kop &amp; Identitas Sekolah"
               className="p-1.5 rounded-md text-slate-400 hover:text-emerald-400 hover:bg-slate-800 transition"
             >
               <Settings className="w-4 h-4" />
             </button>
+          </div>
+        </div>
+
+        {/* Firebase Cloud Firestore Sync Card */}
+        <div className="px-4 py-2.5 bg-slate-950/90 border-b border-slate-800/90 mb-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 truncate">
+              <div className={`w-2 h-2 rounded-full shrink-0 ${currentUser ? 'bg-emerald-400 animate-pulse' : 'bg-slate-500'}`} />
+              <div className="truncate">
+                <p className="text-[11px] font-semibold text-slate-200 truncate">
+                  {currentUser ? currentUser.displayName || currentUser.email : 'Cloud Firestore'}
+                </p>
+                <p className="text-[9px] text-slate-400 font-mono truncate">
+                  {currentUser ? 'Tersinkron ke Firebase' : 'primal-ally-34r4b'}
+                </p>
+              </div>
+            </div>
+            {currentUser ? (
+              <button
+                onClick={onSignOut}
+                title="Keluar Akun Google"
+                className="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
+            ) : (
+              <button
+                onClick={onSignInWithGoogle}
+                title="Masuk Akun Google untuk Sinkronisasi Cloud"
+                className="px-2 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-[10px] font-bold flex items-center gap-1 transition"
+              >
+                <LogIn className="w-3 h-3" />
+                <span>Masuk</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -281,6 +326,9 @@ export const Navbar: React.FC<{
   licenseState: ClientLicenseState;
   onOpenActivation: () => void;
   onOpenLicenseInfo: () => void;
+  currentUser?: User | null;
+  onSignInWithGoogle?: () => void;
+  onSignOut?: () => void;
 }> = ({
   profil,
   onOpenSettings,
@@ -290,6 +338,9 @@ export const Navbar: React.FC<{
   licenseState,
   onOpenActivation,
   onOpenLicenseInfo,
+  currentUser,
+  onSignInWithGoogle,
+  onSignOut,
 }) => {
   const currentTitle = NAV_ITEMS.find((n) => n.id === activeModule)?.label || 'PAIBP Assessment Pro';
   const isPro = licenseState.isPro && licenseState.status === 'PRO_ACTIVE';
@@ -385,6 +436,32 @@ export const Navbar: React.FC<{
           </span>
           <Settings className="w-3.5 h-3.5 text-slate-400 hidden sm:inline shrink-0" />
         </button>
+
+        {/* Firebase Cloud Sync button */}
+        {currentUser ? (
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl min-h-[40px]">
+            <Cloud className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span className="hidden md:inline truncate max-w-[90px]">
+              {currentUser.displayName?.split(' ')[0] || 'Cloud'}
+            </span>
+            <button
+              onClick={onSignOut}
+              title="Keluar dari Cloud"
+              className="text-slate-400 hover:text-rose-600 p-0.5 ml-0.5 transition cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={onSignInWithGoogle}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl transition min-h-[40px] cursor-pointer active:scale-95"
+            title="Hubungkan ke Google Cloud Firebase"
+          >
+            <Cloud className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span className="hidden md:inline">Cloud Sync</span>
+          </button>
+        )}
       </div>
     </header>
   );

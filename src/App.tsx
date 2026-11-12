@@ -25,6 +25,11 @@ import {
 import { Sidebar, Navbar, MobileBottomNav, ActiveModule } from './components/Navigation';
 import { SchoolProfileModal } from './components/SchoolProfileModal';
 
+// Firebase Services & Cloud Sync
+import { auth, signInWithGoogle, signOutUser } from './services/firebase';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { saveSchoolProfileToCloud, loadSchoolProfileFromCloud } from './services/cloudStorageService';
+
 // License & Owner Components
 import { DemoBanner } from './components/license/DemoBanner';
 import { ActivationModal } from './components/license/ActivationModal';
@@ -69,6 +74,9 @@ export function App() {
     isOpen: false,
   });
 
+  // Firebase Authentication & Cloud State
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
   // Cross-module states
   const [incomingKisiKisi, setIncomingKisiKisi] = useState<KisiKisiItem[]>([]);
   const [testPresetTarget, setTestPresetTarget] = useState<number | undefined>(undefined);
@@ -87,6 +95,27 @@ export function App() {
     });
     fetchLicenseStatus();
     return () => unsub();
+  }, []);
+
+  // Listen to Firebase Auth state & sync cloud profile
+  useEffect(() => {
+    const unsubAuth = onAuthStateChanged(auth, async (user) => {
+      setCurrentUser(user);
+      if (user) {
+        try {
+          const cloudProfile = await loadSchoolProfileFromCloud();
+          if (cloudProfile) {
+            updateDatabase((prev) => ({
+              ...prev,
+              profilSekolah: { ...prev.profilSekolah, ...cloudProfile },
+            }));
+          }
+        } catch (e) {
+          console.warn('Could not load profile from cloud:', e);
+        }
+      }
+    });
+    return () => unsubAuth();
   }, []);
 
   // Sync to database
@@ -186,6 +215,9 @@ export function App() {
         onOpenActivation={() => setIsActivationOpen(true)}
         onOpenLicenseInfo={() => setIsLicenseInfoOpen(true)}
         onOpenOwnerPanel={() => setIsOwnerPanelOpen(true)}
+        currentUser={currentUser}
+        onSignInWithGoogle={signInWithGoogle}
+        onSignOut={signOutUser}
       />
 
       {/* Main Content Area */}
@@ -199,6 +231,9 @@ export function App() {
           licenseState={licenseState}
           onOpenActivation={() => setIsActivationOpen(true)}
           onOpenLicenseInfo={() => setIsLicenseInfoOpen(true)}
+          currentUser={currentUser}
+          onSignInWithGoogle={signInWithGoogle}
+          onSignOut={signOutUser}
         />
 
         <main className="flex-1 p-3 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto pb-24 lg:pb-8">
@@ -384,7 +419,10 @@ export function App() {
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         profil={db.profilSekolah}
-        onSave={(updated) => updateDatabase((prev) => ({ ...prev, profilSekolah: updated }))}
+        onSave={(updated) => {
+          updateDatabase((prev) => ({ ...prev, profilSekolah: updated }));
+          saveSchoolProfileToCloud(updated);
+        }}
       />
 
       {/* Activation Modal */}

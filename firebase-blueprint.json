@@ -1,0 +1,311 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile information and settings",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Unique user ID matching auth.uid",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User email address",
+          "maxLength": 256
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the user",
+          "maxLength": 150
+        },
+        "role": {
+          "type": "string",
+          "description": "User system role",
+          "enum": ["teacher", "admin"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "SchoolProfile": {
+      "title": "SchoolProfile",
+      "description": "School identity and academic year configuration",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID",
+          "maxLength": 128
+        },
+        "namaSekolah": {
+          "type": "string",
+          "description": "Name of school",
+          "maxLength": 200
+        },
+        "npsn": {
+          "type": "string",
+          "description": "NPSN number",
+          "maxLength": 50
+        },
+        "alamat": {
+          "type": "string",
+          "description": "School address",
+          "maxLength": 300
+        },
+        "guruMataPelajaran": {
+          "type": "string",
+          "description": "Teacher name with title",
+          "maxLength": 150
+        },
+        "nipGuru": {
+          "type": "string",
+          "description": "Teacher NIP",
+          "maxLength": 50
+        },
+        "kepalaSekolah": {
+          "type": "string",
+          "description": "Principal name with title",
+          "maxLength": 150
+        },
+        "nipKepalaSekolah": {
+          "type": "string",
+          "description": "Principal NIP",
+          "maxLength": 50
+        },
+        "tahunPelajaran": {
+          "type": "string",
+          "description": "Academic year",
+          "maxLength": 50
+        },
+        "kktpDefault": {
+          "type": "number",
+          "description": "Default KKTP score threshold"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["userId", "namaSekolah", "guruMataPelajaran", "tahunPelajaran"]
+    },
+    "QuestionItem": {
+      "title": "QuestionItem",
+      "description": "Question bank item created by teacher",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique question ID",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID",
+          "maxLength": 128
+        },
+        "fase": {
+          "type": "string",
+          "description": "Curriculum phase",
+          "enum": ["E", "F"]
+        },
+        "kelas": {
+          "type": "string",
+          "description": "Target grade level",
+          "enum": ["X", "XI", "XII"]
+        },
+        "elemen": {
+          "type": "string",
+          "description": "Curriculum element",
+          "maxLength": 100
+        },
+        "bentukSoal": {
+          "type": "string",
+          "description": "Question format",
+          "maxLength": 50
+        },
+        "levelBloom": {
+          "type": "string",
+          "description": "Bloom taxonomy level",
+          "enum": ["C1", "C2", "C3", "C4", "C5", "C6"]
+        },
+        "kategoriKognitif": {
+          "type": "string",
+          "description": "Cognitive category",
+          "enum": ["LOTS", "MOTS", "HOTS"]
+        },
+        "materi": {
+          "type": "string",
+          "description": "Core subject matter",
+          "maxLength": 200
+        },
+        "indikator": {
+          "type": "string",
+          "description": "Assessment indicator",
+          "maxLength": 500
+        },
+        "pertanyaan": {
+          "type": "string",
+          "description": "Question body text",
+          "maxLength": 5000
+        },
+        "kunciJawaban": {
+          "type": "string",
+          "description": "Answer key",
+          "maxLength": 1000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": ["id", "userId", "fase", "pertanyaan", "kunciJawaban"]
+    },
+    "AssessmentPackage": {
+      "title": "AssessmentPackage",
+      "description": "Complete assessment package with questions and answer keys",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Package ID",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID",
+          "maxLength": 128
+        },
+        "namaPaket": {
+          "type": "string",
+          "description": "Package title",
+          "maxLength": 250
+        },
+        "fase": {
+          "type": "string",
+          "description": "Curriculum phase",
+          "enum": ["E", "F"]
+        },
+        "kelas": {
+          "type": "string",
+          "description": "Class grade",
+          "maxLength": 50
+        },
+        "semester": {
+          "type": "string",
+          "description": "Semester",
+          "maxLength": 20
+        },
+        "jenisAsesmen": {
+          "type": "string",
+          "description": "Assessment type",
+          "maxLength": 100
+        },
+        "totalSoal": {
+          "type": "number",
+          "description": "Total count of questions"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": ["id", "userId", "namaPaket", "fase"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "Student roster record",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Student record ID",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "Teacher user ID",
+          "maxLength": 128
+        },
+        "nisn": {
+          "type": "string",
+          "description": "National student identification number",
+          "maxLength": 50
+        },
+        "nama": {
+          "type": "string",
+          "description": "Full student name",
+          "maxLength": 150
+        },
+        "kelas": {
+          "type": "string",
+          "description": "Class",
+          "maxLength": 20
+        },
+        "fase": {
+          "type": "string",
+          "description": "Phase",
+          "enum": ["E", "F"]
+        },
+        "jenisKelamin": {
+          "type": "string",
+          "description": "Gender L or P",
+          "enum": ["L", "P"]
+        }
+      },
+      "required": ["id", "userId", "nama", "kelas", "fase"]
+    },
+    "TestConnection": {
+      "title": "TestConnection",
+      "description": "Connectivity test document for Firestore initialization check",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Status text",
+          "maxLength": 50
+        }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}/profile/info": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profile document"
+    },
+    "/users/{userId}/schoolProfile/config": {
+      "schema": { "$ref": "#/entities/SchoolProfile" },
+      "description": "User school identity profile"
+    },
+    "/users/{userId}/questions/{questionId}": {
+      "schema": { "$ref": "#/entities/QuestionItem" },
+      "description": "User custom and saved question bank items"
+    },
+    "/users/{userId}/assessmentPackages/{packageId}": {
+      "schema": { "$ref": "#/entities/AssessmentPackage" },
+      "description": "User assessment packages"
+    },
+    "/users/{userId}/students/{studentId}": {
+      "schema": { "$ref": "#/entities/Student" },
+      "description": "User student roster entries"
+    },
+    "/test/connection": {
+      "schema": { "$ref": "#/entities/TestConnection" },
+      "description": "Test connectivity check document"
+    }
+  }
+}
